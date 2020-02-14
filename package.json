@@ -1,0 +1,54 @@
+{
+  "name": "star-rain-line-bot",
+  "version": "0.0.1",
+  "description": "Node.js SDK for LINE Messaging API",
+  "engines": {
+    "node": ">=8"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "lint:ts": "node --max-old-space-size=2048 node_modules/tslint/bin/tslint --project .",
+    "fix:ts": "npm run lint:ts -- --fix",
+    "lint:format": "prettier --config ./prettierrc.json --list-different \".{/src/**/,/}*.{js,ts,json,md,css,scss,html}\"",
+    "fix:format": "npm run lint:format -- --write",
+    "lint": "run-p lint:*",
+    "fix": "run-s fix:*",
+    "build": "node --max-old-space-size=2048 node_modules/webpack/bin/webpack.js --config webpack.config.lambda.js --display errors-only",
+    "serverless:package": "aws cloudformation package --template-file aws/cloudformation/template.yaml --output-template-file packaged.yaml --s3-bucket y-cf-midway",
+    "serverless:dev": "aws cloudformation deploy --template-file packaged.yaml --stack-name y-star-rain-stack-dev --parameter-overrides ENVR=dev",
+    "serverless:prod": "aws cloudformation deploy --template-file packaged.yaml --stack-name y-star-rain-stack-prod --parameter-overrides ENVR=prod",
+    "deploy:dev": "npm run build && npm run serverless:package && npm run serverless:dev",
+    "deploy:prod": "npm run build && npm run serverless:package && npm run serverless:prod"
+  },
+  "dependencies": {
+    "@line/bot-sdk": "^6.8.4",
+    "@types/cheerio": "^0.22.15",
+    "@types/node": "^7.10.9",
+    "@types/xmldom": "^0.1.29",
+    "aws-sdk": "^2.600.0",
+    "inversify": "^5.0.1",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "express": "^4.17.1",
+    "gts": "^1.1.2",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.19.1",
+    "ts-loader": "^6.2.1",
+    "ts-node": "^8.5.4",
+    "tsconfig-paths-webpack-plugin": "^3.2.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-eslint-rules-recommended": "^1.2.2",
+    "tslint-microsoft-contrib": "^6.2.0",
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "zip-webpack-plugin": "^3.0.0"
+  }
+}

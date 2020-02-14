@@ -1,0 +1,9 @@
+# Dependency directories
+node_modules/
+
+# Built files
+dist
+build
+
+# aws output
+packaged.yaml
