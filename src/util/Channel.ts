@@ -6,15 +6,15 @@ import { ClientConfig } from '@line/bot-sdk';
 export class Channel {
   // For development:
   public static readonly starRainConfig: ClientConfig = {
-    channelSecret: '85b6b3042b1befeb6faa60489f64e809',
+    channelSecret: '52828d14e9549e7d9ac3a5e5bd5ac6af',
     channelAccessToken:
-      'MC1Xr6xPEyN9K0xRGh/7MIs3ITQBSAW3Tl0cJ1JaoG6A9jfeHhX2Qopn11H5P1cO1bwR8PiSnYH+1LIU0zqjSgAKSW7l1m98tU3aQCGw8iVvoA3z9KHzjHTTLVJ2uieMkPU0T92QkWTX6TGDYF4LYwdB04t89/1O/w1cDnyilFU=',
+      'u0ZZFRWK+W08NGzgwYRpNBcJHyNPpJlAq6SZ0RP2jrwKsn5+hDXo7UIcm3dRMb1hkE6+0RXchqtguabsQi6A8NACQs5kL6cfZq3R3iv2tkzasF5gzgRt70wGM+L3dPO2w7LhGbtzrV9ALHaETC4ghAdB04t89/1O/w1cDnyilFU=',
   };
 
   // For production: FIX-ME when deploy to production
   // public static readonly helpMeConfig: ClientConfig = {
-  //   channelSecret: '85b6b3042b1befeb6faa60489f64e809',
+  //   channelSecret: '52828d14e9549e7d9ac3a5e5bd5ac6af',
   //   channelAccessToken:
-  //     'MC1Xr6xPEyN9K0xRGh/7MIs3ITQBSAW3Tl0cJ1JaoG6A9jfeHhX2Qopn11H5P1cO1bwR8PiSnYH+1LIU0zqjSgAKSW7l1m98tU3aQCGw8iVvoA3z9KHzjHTTLVJ2uieMkPU0T92QkWTX6TGDYF4LYwdB04t89/1O/w1cDnyilFU=',
+  //     'u0ZZFRWK+W08NGzgwYRpNBcJHyNPpJlAq6SZ0RP2jrwKsn5+hDXo7UIcm3dRMb1hkE6+0RXchqtguabsQi6A8NACQs5kL6cfZq3R3iv2tkzasF5gzgRt70wGM+L3dPO2w7LhGbtzrV9ALHaETC4ghAdB04t89/1O/w1cDnyilFU=',
   // };
 }

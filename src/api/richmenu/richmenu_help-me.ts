@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import { Channel } from '../../util/Channel';
 
 async function setRichMenu(): Promise<any> {
-  const client: Client = new Client(Channel.helpMeConfig);
+  const client: Client = new Client(Channel.starRainConfig);
 
   const richMenuMain: RichMenu = {
     size: {
@@ -107,7 +107,7 @@ async function setRichMenu(): Promise<any> {
   console.log('created new');
   await client.setRichMenuImage(
     richMenuId,
-    fs.createReadStream('./src/api/richmenu/help-me-main.png')
+    fs.createReadStream('./src/api/richmenu/richmenu-src.png')
   );
   console.log('set richmenu finish');
 
