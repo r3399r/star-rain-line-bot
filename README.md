@@ -10,10 +10,10 @@
 - `git clone` this project to your local directory.
 - Run `npm install` to install required packages.
 - Set `aws configure` so that we can deploy by aws cloudformation.
-  -- AWS Access Key ID: AKIAUBV6BOODOEY6TZ4X
-  -- AWS Secret Access Key: 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
-  -- Default region name: ap-northeast-1
-  -- Default output format: json
+  - AWS Access Key ID: AKIAUBV6BOODOEY6TZ4X
+  - AWS Secret Access Key: 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
+  - Default region name: ap-northeast-1
+  - Default output format: json
 - `npm install -g ts-node` for seting LINE API like richmenu.
 
 ## Configuration in Line Official Account Manager
