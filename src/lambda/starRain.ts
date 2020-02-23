@@ -22,6 +22,9 @@ export async function starRain(
     case 'message':
       await starRainService.messageReply(event.events[0]);
       break;
+    case 'postback':
+      await starRainService.postbackEvent(event.events[0]);
+      break;
     default:
   }
 }
