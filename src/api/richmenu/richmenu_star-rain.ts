@@ -25,7 +25,7 @@ async function setRichMenu(): Promise<any> {
         action: {
           type: 'postback',
           data: 'richmenu1',
-          displayText: '集點!',
+          displayText: '集點...',
         },
       },
     ],
