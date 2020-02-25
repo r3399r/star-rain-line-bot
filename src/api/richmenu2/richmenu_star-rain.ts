@@ -24,8 +24,8 @@ async function setRichMenu(): Promise<any> {
         },
         action: {
           type: 'postback',
-          data: '1',
-          displayText: '1',
+          data: 'brochure',
+          displayText: '電子傳單',
         },
       },
       {
@@ -36,10 +36,9 @@ async function setRichMenu(): Promise<any> {
           height: 135,
         },
         action: {
-          type: 'postback',
-          //data: 'richmenu',
-          data: '3',
-          displayText: '3',
+          type: 'uri',
+          // tslint:disable-next-line: no-http-string
+          uri: 'http://pic.sopili.net/l/facebook/page/228154233892265',
         },
       },
       {
@@ -51,9 +50,8 @@ async function setRichMenu(): Promise<any> {
         },
         action: {
           type: 'postback',
-          //data: 'richmenu',
-          data: '2',
-          displayText: '2',
+          data: 'game::1',
+          displayText: '玩遊戲，喝飲料',
         },
       },
       {
@@ -65,16 +63,12 @@ async function setRichMenu(): Promise<any> {
         },
         action: {
           type: 'postback',
-          //data: 'richmenu',
-          data: '4',
-          displayText: '4',
+          data: 'sign-up',
+          displayText: '報名招茶，吃蛋糕',
         },
       },
     ],
-    
   };
-
-  
 
   const richMenus: RichMenuResponse[] = await client.getRichMenuList();
   console.log(`find existing richMenus: ${richMenus.length}`);
@@ -83,14 +77,13 @@ async function setRichMenu(): Promise<any> {
   }
   console.log('deleted');
   const richMenu: string = await client.createRichMenu(richMenuMain);
-  
 
   console.log('created new');
   await client.setRichMenuImage(
     richMenu,
     fs.createReadStream('./src/api/richmenu2/richmenu.png')
   );
-  
+
   console.log('set richmenu finish');
 
   await client.setDefaultRichMenu(richMenu);
