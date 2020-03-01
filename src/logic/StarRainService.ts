@@ -12,28 +12,21 @@ export class StarRainService {
 
   public async messageReply(event: MessageEvent): Promise<void> {
     if (event.message.type === 'text') {
-      if (event.message.text === 'hi') {
-        await this.client.replyMessage(event.replyToken, {
-          type: 'text',
-          text: 'yeyes',
-        });
-      } else {
-        let replyText: string = '';
-        replyText += '感謝您傳送訊息給我們。\n';
-        replyText += '很抱歉，這個帳號沒有辦法對用戶個別回覆\n\n';
-        replyText += '若有提問歡迎到我們的FB粉絲專頁題問，我們會盡速回覆\n';
-        replyText += 'https://www.facebook.com/starrain.ntu/\n';
-        replyText += '以下連結可自動開啟臉書app\n';
-        replyText +=
-          // tslint:disable-next-line: no-http-string
-          'http://pic.sopili.net/l/facebook/page/228154233892265\n\n';
-        replyText += '台大星雨小編群感謝您^^';
+      let replyText: string = '';
+      replyText += '感謝您傳送訊息給我們。\n';
+      replyText += '很抱歉，這個帳號沒有辦法對用戶個別回覆\n\n';
+      replyText += '若有提問歡迎到我們的FB粉絲專頁題問，我們會盡速回覆\n';
+      replyText += 'https://www.facebook.com/starrain.ntu/\n';
+      replyText += '以下連結可自動開啟臉書app\n';
+      replyText +=
+        // tslint:disable-next-line: no-http-string
+        'http://pic.sopili.net/l/facebook/page/228154233892265\n\n';
+      replyText += '台大星雨小編群感謝您^^';
 
-        await this.client.replyMessage(event.replyToken, {
-          type: 'text',
-          text: replyText,
-        });
-      }
+      await this.client.replyMessage(event.replyToken, {
+        type: 'text',
+        text: replyText,
+      });
     }
   }
 
@@ -44,36 +37,29 @@ export class StarRainService {
 
     const data: string[] = event.postback.data.split('::');
     switch (data[0]) {
-      case 'brochure': {
+      case 'brochure':
         await this.client.replyMessage(
           event.replyToken,
           ItemGenerator.flexPureImage()
         );
         break;
-      }
-      case 'game': {
+      case 'game':
         await this.playGame(event.replyToken, data[1]);
         break;
-      }
-      case 'sign-up': {
+      case 'setting':
         await this.client.replyMessage(event.replyToken, {
           type: 'text',
           text: 'sign-up',
+          quickReply: {
+            items: [
+              ItemGenerator.quickReplyItem('家長', '家長', 'related'),
+              ItemGenerator.quickReplyItem('社會', '社會', 'others'),
+            ],
+          },
         });
         break;
-      }
       default:
     }
-
-    // const richMenus: RichMenuResponse[] = await this.client.getRichMenuList();
-    // for (const rm of richMenus) {
-    //  if (rm.name === event.postback.data) {
-    //    await this.client.linkRichMenuToUser(
-    //      event.source.userId,
-    //      rm.richMenuId
-    //    );
-    //  }
-    // }
   }
 
   private async playGame(replyToken: string, question: string): Promise<void> {
@@ -85,8 +71,11 @@ export class StarRainService {
         });
         break;
       case '1':
+        let initialText: string = '';
+        initialText += '總共8題!你能完成所有的題目嗎?\n';
+        initialText += '全部完成後可以獲得一杯免費飲料~';
         await this.client.replyMessage(replyToken, [
-          ItemGenerator.textMessage('總共8題!你能完成所有的題目嗎?'),
+          ItemGenerator.textMessage(initialText),
           ItemGenerator.templateTrueFalse(
             '是非題小遊戲',
             '1.星兒的智商都很低嗎?',
@@ -173,9 +162,14 @@ export class StarRainService {
         );
         break;
       case 'end':
+        let finalText: string = '';
+        finalText += '恭喜你完成所有的題目，獲得一杯飲料!\n';
+        finalText += '點選連結填寫表單:https://reurl.cc/b6Zgd6\n';
+        finalText += '並在最後一題填暗號"飲料飲料飲料"\n';
+        finalText += '我們將在活動當天送你一杯飲料:)';
         await this.client.replyMessage(
           replyToken,
-          ItemGenerator.textMessage('恭喜你完成所有的題目!')
+          ItemGenerator.textMessage(finalText)
         );
         break;
       default:

@@ -1,6 +1,7 @@
 import {
   FlexBubble,
   FlexMessage,
+  QuickReplyItem,
   TemplateMessage,
   TextMessage,
 } from '@line/bot-sdk';
@@ -9,6 +10,22 @@ import {
  * generate required line objects
  */
 export class ItemGenerator {
+  public static quickReplyItem(
+    label: string,
+    displayText: string,
+    data: string
+  ): QuickReplyItem {
+    return {
+      type: 'action',
+      action: {
+        type: 'postback',
+        label: label,
+        displayText: displayText,
+        data: data,
+      },
+    };
+  }
+
   public static templateTrueFalse(
     altText: string,
     question: string,
