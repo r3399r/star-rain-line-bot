@@ -1,5 +1,11 @@
-import { Client, MessageEvent, PostbackEvent } from '@line/bot-sdk';
+import {
+  Client,
+  FollowEvent,
+  MessageEvent,
+  PostbackEvent,
+} from '@line/bot-sdk';
 import { inject, injectable } from 'inversify';
+import { DbService } from 'src/logic/DbService';
 import { ItemGenerator } from 'src/util/ItemGenerator';
 
 /**
@@ -9,6 +15,9 @@ import { ItemGenerator } from 'src/util/ItemGenerator';
 export class StarRainService {
   @inject(Client)
   private readonly client!: Client;
+
+  @inject(DbService)
+  private readonly dbService!: DbService;
 
   public async messageReply(event: MessageEvent): Promise<void> {
     if (event.message.type === 'text') {
@@ -47,19 +56,85 @@ export class StarRainService {
         await this.playGame(event.replyToken, data[1]);
         break;
       case 'setting':
+        await this.client.replyMessage(event.replyToken, [
+          {
+            type: 'text',
+            text: '請於下列選項擇一，我們會依不同的設定傳送不同的訊息。',
+          },
+          {
+            type: 'text',
+            text:
+              '若為星兒或家人，之後會推播出隊資訊給您；若為學生或社會人士，我們會不定時推播與自閉症相關的宣導給您。',
+          },
+          {
+            type: 'text',
+            text: '此設定可隨時更改。',
+            quickReply: {
+              items: [
+                ItemGenerator.quickReplyItem(
+                  '星兒或家人',
+                  '我是星兒或家人',
+                  'role::related'
+                ),
+                ItemGenerator.quickReplyItem(
+                  '學生或社會人士',
+                  '我是學生或社會人士',
+                  'role::other'
+                ),
+              ],
+            },
+          },
+        ]);
+        break;
+      case 'role':
+        await this.dbService.saveAttribute(
+          event.source.userId,
+          'role',
+          data[1]
+        );
         await this.client.replyMessage(event.replyToken, {
           type: 'text',
-          text: 'sign-up',
-          quickReply: {
-            items: [
-              ItemGenerator.quickReplyItem('家長', '家長', 'related'),
-              ItemGenerator.quickReplyItem('社會', '社會', 'others'),
-            ],
-          },
+          text: '已設定。',
         });
         break;
       default:
     }
+  }
+
+  public async followEvent(event: FollowEvent): Promise<void> {
+    await this.client.replyMessage(event.replyToken, [
+      {
+        type: 'text',
+        text: '歡迎加入我們的LINE官方帳號!',
+      },
+      {
+        type: 'text',
+        text: '請於下列選項擇一，我們會依不同的設定傳送不同的訊息。',
+      },
+      {
+        type: 'text',
+        text:
+          '若為星兒或家人，之後會推播出隊資訊給您；若為學生或社會人士，我們會不定時推播與自閉症相關的宣導給您。',
+      },
+      {
+        type: 'text',
+        text: '(請於手機LINE查看訊息)',
+        quickReply: {
+          items: [
+            ItemGenerator.quickReplyItem(
+              '星兒或家人',
+              '我是星兒或家人',
+              'role::related'
+            ),
+            ItemGenerator.quickReplyItem(
+              '學生或社會人士',
+              '我是學生或社會人士',
+              'role::other'
+            ),
+          ],
+        },
+      },
+    ]);
   }
 
   private async playGame(replyToken: string, question: string): Promise<void> {
@@ -133,7 +208,7 @@ export class StarRainService {
           replyToken,
           ItemGenerator.templateTrueFalse(
             '是非題小遊戲',
-            '6.星兒人口數在台灣是不是多於20萬人?',
+            '6.根據統計世界上約有1%的人是星兒?',
             'game::7',
             'game::wrong'
           )
@@ -164,8 +239,7 @@ export class StarRainService {
       case 'end':
         let finalText: string = '';
         finalText += '恭喜你完成所有的題目，獲得一杯飲料!\n';
-        finalText += '點選連結填寫表單:https://reurl.cc/b6Zgd6\n';
-        finalText += '並在最後一題填暗號"飲料飲料飲料"\n';
+        finalText += '報名招茶:https://reurl.cc/Nj1X05\n';
         finalText += '我們將在活動當天送你一杯飲料:)';
         await this.client.replyMessage(
           replyToken,

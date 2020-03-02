@@ -19,6 +19,9 @@ export async function starRain(
   switch (
     event.events[0].type // eventType
   ) {
+    case 'follow':
+      await starRainService.followEvent(event.events[0]);
+      break;
     case 'message':
       await starRainService.messageReply(event.events[0]);
       //await starRainService.postbackEvent(event.events[0]);

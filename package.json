@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@line/bot-sdk": "^6.8.4",
+    "aws-sdk": "^2.630.0",
     "inversify": "^5.0.1",
     "reflect-metadata": "^0.1.13"
   },
