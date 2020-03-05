@@ -4,13 +4,6 @@ import { ClientConfig } from '@line/bot-sdk';
  * channel credentials
  */
 export class Channel {
-  // For #:
-  //public static readonly starRainConfig: ClientConfig = {
-  //  channelSecret: '52828d14e9549e7d9ac3a5e5bd5ac6af',
-  //  channelAccessToken:
-  //    'u0ZZFRWK+W08NGzgwYRpNBcJHyNPpJlAq6SZ0RP2jrwKsn5+hDXo7UIcm3dRMb1hkE6+0RXchqtguabsQi6A8NACQs5kL6cfZq3R3iv2tkzasF5gzgRt70wGM+L3dPO2w7LhGbtzrV9ALHaETC4ghAdB04t89/1O/w1cDnyilFU=',
-  //};
-
   // For dev
   public static readonly starRainConfig: ClientConfig = {
     channelSecret: 'bc30d5b9ed25d57253701f6e5cf3590b',
@@ -19,9 +12,9 @@ export class Channel {
   };
 
   // For production: FIX-ME when deploy to production
-  // public static readonly helpMeConfig: ClientConfig = {
-  //   channelSecret: '52828d14e9549e7d9ac3a5e5bd5ac6af',
+  // public static readonly starRainConfig: ClientConfig = {
+  //   channelSecret: '6184c72a4b44bede83ae31984b9b5bd9',
   //   channelAccessToken:
-  //     'u0ZZFRWK+W08NGzgwYRpNBcJHyNPpJlAq6SZ0RP2jrwKsn5+hDXo7UIcm3dRMb1hkE6+0RXchqtguabsQi6A8NACQs5kL6cfZq3R3iv2tkzasF5gzgRt70wGM+L3dPO2w7LhGbtzrV9ALHaETC4ghAdB04t89/1O/w1cDnyilFU=',
+  //     'h8oqFkGDcGvHRusHIsVhRSHXaNYegYQ2TX4/fhd+L+fE44MEk6vmynt2NDsUJWRSc2x5iwqvjQYe3wkU6c4MkI0W2iL4zZ8q+RRQNW06/xf3oyFkc5O/RvJoKYrE8AgPBvwMugdFXUWBpX0YiKQUAgdB04t89/1O/w1cDnyilFU=',
   // };
 }

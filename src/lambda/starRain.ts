@@ -24,7 +24,6 @@ export async function starRain(
       break;
     case 'message':
       await starRainService.messageReply(event.events[0]);
-      //await starRainService.postbackEvent(event.events[0]);
       break;
     case 'postback':
       await starRainService.postbackEvent(event.events[0]);

@@ -7,6 +7,7 @@ import {
 import { inject, injectable } from 'inversify';
 import { DbService } from 'src/logic/DbService';
 import { ItemGenerator } from 'src/util/ItemGenerator';
+import { StickerResponse } from 'src/util/StickerResponse';
 
 /**
  * Service class for star-rain line bot.
@@ -20,23 +21,38 @@ export class StarRainService {
   private readonly dbService!: DbService;
 
   public async messageReply(event: MessageEvent): Promise<void> {
-    if (event.message.type === 'text') {
-      let replyText: string = '';
-      replyText += '感謝您傳送訊息給我們。\n';
-      replyText += '很抱歉，這個帳號沒有辦法對用戶個別回覆\n\n';
-      replyText += '若有提問歡迎到我們的FB粉絲專頁題問，我們會盡速回覆\n';
-      replyText += 'https://www.facebook.com/starrain.ntu/\n';
-      replyText += '以下連結可自動開啟臉書app\n';
-      replyText +=
-        // tslint:disable-next-line: no-http-string
-        'http://pic.sopili.net/l/facebook/page/228154233892265\n\n';
-      replyText += '台大星雨小編群感謝您^^';
-
-      await this.client.replyMessage(event.replyToken, {
-        type: 'text',
-        text: replyText,
-      });
+    switch (event.message.type) {
+      case 'sticker':
+        if (event.message.packageId === '4008485') {
+          await this.client.replyMessage(event.replyToken, {
+            type: 'text',
+            text: StickerResponse.replyText(event.message.stickerId),
+          });
+        } else {
+          await this.defaultReply(event.replyToken);
+        }
+        break;
+      default:
+        await this.defaultReply(event.replyToken);
     }
+  }
+
+  private async defaultReply(replyToken: string): Promise<void> {
+    let replyText: string = '';
+    replyText += '感謝您傳送訊息給我們。\n';
+    replyText += '很抱歉，這個帳號沒有辦法對用戶個別回覆\n\n';
+    replyText += '若有提問歡迎到我們的FB粉絲專頁題問，我們會盡速回覆\n';
+    replyText += 'https://www.facebook.com/starrain.ntu/\n';
+    replyText += '以下連結可自動開啟臉書app\n';
+    replyText +=
+      // tslint:disable-next-line: no-http-string
+      'http://pic.sopili.net/l/facebook/page/228154233892265\n\n';
+    replyText += '台大星雨小編群感謝您^^';
+
+    await this.client.replyMessage(replyToken, {
+      type: 'text',
+      text: replyText,
+    });
   }
 
   public async postbackEvent(event: PostbackEvent): Promise<void> {
@@ -56,35 +72,29 @@ export class StarRainService {
         await this.playGame(event.replyToken, data[1]);
         break;
       case 'setting':
-        await this.client.replyMessage(event.replyToken, [
-          {
-            type: 'text',
-            text: '請於下列選項擇一，我們會依不同的設定傳送不同的訊息。',
-          },
-          {
-            type: 'text',
+        await this.client.replyMessage(event.replyToken, {
+          type: 'template',
+          altText: '設定通知選項',
+          template: {
+            type: 'buttons',
             text:
-              '若為星兒或家人，之後會推播出隊資訊給您；若為學生或社會人士，我們會不定時推播與自閉症相關的宣導給您。',
+              '[通知設定]\n若為星兒或家人，之後會推播出隊資訊給您；\n若為學生或社會人士，我們會不定時推播與自閉症相關的宣導給您。',
+            actions: [
+              {
+                type: 'postback',
+                data: 'role::related',
+                label: '星兒或家人',
+                displayText: '我是星兒或家人',
+              },
+              {
+                type: 'postback',
+                data: 'role::other',
+                label: '學生或社會人士',
+                displayText: '我是學生或社會人士',
+              },
+            ],
           },
-          {
-            type: 'text',
-            text: '此設定可隨時更改。',
-            quickReply: {
-              items: [
-                ItemGenerator.quickReplyItem(
-                  '星兒或家人',
-                  '我是星兒或家人',
-                  'role::related'
-                ),
-                ItemGenerator.quickReplyItem(
-                  '學生或社會人士',
-                  '我是學生或社會人士',
-                  'role::other'
-                ),
-              ],
-            },
-          },
-        ]);
+        });
         break;
       case 'role':
         await this.dbService.saveAttribute(
@@ -102,35 +112,32 @@ export class StarRainService {
   }
 
   public async followEvent(event: FollowEvent): Promise<void> {
+    await this.dbService.saveAttribute(event.source.userId, 'role', 'other'); // default role is other
     await this.client.replyMessage(event.replyToken, [
       {
         type: 'text',
         text: '歡迎加入我們的LINE官方帳號!',
       },
       {
-        type: 'text',
-        text: '請於下列選項擇一，我們會依不同的設定傳送不同的訊息。',
-      },
-      {
-        type: 'text',
-        text:
-          '若為星兒或家人，之後會推播出隊資訊給您；若為學生或社會人士，我們會不定時推播與自閉症相關的宣導給您。',
-      },
-      {
-        type: 'text',
-        text: '(請於手機LINE查看訊息)',
-        quickReply: {
-          items: [
-            ItemGenerator.quickReplyItem(
-              '星兒或家人',
-              '我是星兒或家人',
-              'role::related'
-            ),
-            ItemGenerator.quickReplyItem(
-              '學生或社會人士',
-              '我是學生或社會人士',
-              'role::other'
-            ),
+        type: 'template',
+        altText: '設定通知選項',
+        template: {
+          type: 'buttons',
+          text:
+            '[通知設定]\n若為星兒或家人，之後會推播出隊資訊給您；\n若為學生或社會人士，我們會不定時推播與自閉症相關的宣導給您。',
+          actions: [
+            {
+              type: 'postback',
+              data: 'role::related',
+              label: '星兒或家人',
+              displayText: '我是星兒或家人',
+            },
+            {
+              type: 'postback',
+              data: 'role::other',
+              label: '學生或社會人士',
+              displayText: '我是學生或社會人士',
+            },
           ],
         },
       },
