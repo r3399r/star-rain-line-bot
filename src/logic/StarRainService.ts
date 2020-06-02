@@ -32,6 +32,13 @@ export class StarRainService {
           await this.defaultReply(event.replyToken);
         }
         break;
+      case 'text':
+        await this.client.pushMessage('Udbe6af1d6183b0af450d06f80826fcd6', {
+          type: 'text',
+          text: `有人傳訊息給星雨LINE帳號~\n${event.source.userId}\n${event.message.text}`,
+        });
+        await this.defaultReply(event.replyToken);
+        break;
       default:
         await this.defaultReply(event.replyToken);
     }
@@ -154,8 +161,7 @@ export class StarRainService {
         break;
       case '1':
         let initialText: string = '';
-        initialText += '總共8題!你能完成所有的題目嗎?\n';
-        initialText += '全部完成後可以獲得一杯免費飲料~';
+        initialText += '總共8題!讓我們完成所有的題目吧!';
         await this.client.replyMessage(replyToken, [
           ItemGenerator.textMessage(initialText),
           ItemGenerator.templateTrueFalse(
@@ -167,87 +173,85 @@ export class StarRainService {
         ]);
         break;
       case '2':
-        await this.client.replyMessage(
-          replyToken,
+        await this.client.replyMessage(replyToken, [
+          ItemGenerator.textMessage('答對了!下一題~'),
           ItemGenerator.templateTrueFalse(
             '是非題小遊戲',
             '2.星兒是不是都不太愛講話?',
             'game::wrong',
             'game::3'
-          )
-        );
+          ),
+        ]);
         break;
       case '3':
-        await this.client.replyMessage(
-          replyToken,
+        await this.client.replyMessage(replyToken, [
+          ItemGenerator.textMessage('答對了!下一題~'),
           ItemGenerator.templateTrueFalse(
             '是非題小遊戲',
             '3.男性星兒的人數是不是大於女性星兒?',
             'game::4',
             'game::wrong'
-          )
-        );
+          ),
+        ]);
         break;
       case '4':
-        await this.client.replyMessage(
-          replyToken,
+        await this.client.replyMessage(replyToken, [
+          ItemGenerator.textMessage('答對了!下一題~'),
           ItemGenerator.templateTrueFalse(
             '是非題小遊戲',
             '4.星兒都不喜歡交朋友嗎?',
             'game::wrong',
             'game::5'
-          )
-        );
+          ),
+        ]);
         break;
       case '5':
-        await this.client.replyMessage(
-          replyToken,
+        await this.client.replyMessage(replyToken, [
+          ItemGenerator.textMessage('答對了!下一題~'),
           ItemGenerator.templateTrueFalse(
             '是非題小遊戲',
             '5.星兒症狀是不是都很明顯?',
             'game::wrong',
             'game::6'
-          )
-        );
+          ),
+        ]);
         break;
       case '6':
-        await this.client.replyMessage(
-          replyToken,
+        await this.client.replyMessage(replyToken, [
+          ItemGenerator.textMessage('答對了!下一題~'),
           ItemGenerator.templateTrueFalse(
             '是非題小遊戲',
             '6.根據統計世界上約有1%的人是星兒?',
             'game::7',
             'game::wrong'
-          )
-        );
+          ),
+        ]);
         break;
       case '7':
-        await this.client.replyMessage(
-          replyToken,
+        await this.client.replyMessage(replyToken, [
+          ItemGenerator.textMessage('答對了!下一題~'),
           ItemGenerator.templateTrueFalse(
             '是非題小遊戲',
             '7.星兒是不是都在家自學?',
             'game::wrong',
             'game::8'
-          )
-        );
+          ),
+        ]);
         break;
       case '8':
-        await this.client.replyMessage(
-          replyToken,
+        await this.client.replyMessage(replyToken, [
+          ItemGenerator.textMessage('答對了!最後一題~'),
           ItemGenerator.templateTrueFalse(
             '是非題小遊戲',
             '8.每個星兒的自閉症症狀是不是都不同?',
             'game::end',
             'game::wrong'
-          )
-        );
+          ),
+        ]);
         break;
       case 'end':
         let finalText: string = '';
-        finalText += '恭喜你完成所有的題目，獲得一杯飲料!\n';
-        finalText += '報名招茶:https://reurl.cc/Nj1X05\n';
-        finalText += '我們將在活動當天送你一杯飲料:)';
+        finalText += '恭喜你完成所有的題目，您對星兒很瞭解喔!';
         await this.client.replyMessage(
           replyToken,
           ItemGenerator.textMessage(finalText)

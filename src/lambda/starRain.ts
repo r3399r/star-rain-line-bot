@@ -10,7 +10,7 @@ export async function starRain(
 ): Promise<any> {
   console.log(event.events[0]);
 
-  BindingsHelper.bindClientConfig(Channel.starRainConfig);
+  BindingsHelper.bindClientConfig(Channel.config[Channel.environment]);
 
   const starRainService: StarRainService = bindings.get<StarRainService>(
     StarRainService

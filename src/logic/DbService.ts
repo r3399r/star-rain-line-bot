@@ -6,6 +6,7 @@ import {
   UpdateItemOutput,
 } from 'aws-sdk/clients/dynamodb';
 import { inject, injectable } from 'inversify';
+import { Channel } from 'src/util/Channel';
 /**
  * Save follower to AWS DynamoDB. Remove unfollower instead.
  */
@@ -16,7 +17,7 @@ export class DbService {
 
   private readonly tableName: string = 'user';
 
-  private readonly envr: string = 'dev-'; // FIX-ME when deploy to production
+  private readonly envr: string = `${Channel.environment}-`;
 
   private readonly functionName: string = 'starRain';
 

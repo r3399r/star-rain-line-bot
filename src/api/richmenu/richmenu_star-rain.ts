@@ -4,12 +4,12 @@ import * as fs from 'fs';
 import { Channel } from '../../util/Channel';
 
 async function setRichMenu(): Promise<any> {
-  const client: Client = new Client(Channel.starRainConfig);
+  const client: Client = new Client(Channel.config[Channel.environment]);
 
   const richMenuMain: RichMenu = {
     size: {
-      width: 800,
-      height: 270,
+      width: 945,
+      height: 319,
     },
     selected: true,
     name: 'richmenu',
@@ -19,8 +19,8 @@ async function setRichMenu(): Promise<any> {
         bounds: {
           x: 0,
           y: 0,
-          width: 400,
-          height: 135,
+          width: 472,
+          height: 159,
         },
         action: {
           type: 'postback',
@@ -31,9 +31,9 @@ async function setRichMenu(): Promise<any> {
       {
         bounds: {
           x: 0,
-          y: 135,
-          width: 200,
-          height: 135,
+          y: 159,
+          width: 472,
+          height: 160,
         },
         action: {
           type: 'uri',
@@ -43,10 +43,10 @@ async function setRichMenu(): Promise<any> {
       },
       {
         bounds: {
-          x: 200,
-          y: 135,
-          width: 200,
-          height: 135,
+          x: 472,
+          y: 159,
+          width: 472,
+          height: 160,
         },
         action: {
           type: 'postback',
@@ -56,28 +56,15 @@ async function setRichMenu(): Promise<any> {
       },
       {
         bounds: {
-          x: 400,
+          x: 472,
           y: 0,
-          width: 400,
-          height: 135,
+          width: 472,
+          height: 159,
         },
         action: {
           type: 'postback',
           data: 'game::1',
-          displayText: '玩遊戲，喝飲料',
-        },
-      },
-      {
-        bounds: {
-          x: 400,
-          y: 135,
-          width: 400,
-          height: 135,
-        },
-        action: {
-          type: 'uri',
-          uri:
-            'https://docs.google.com/forms/d/1PHhjGvRjRNHnvWwCptMX3nJBryYa6NicHX9HWNVRZCU/viewform?edit_requested=true',
+          displayText: '認識星兒小測驗',
         },
       },
     ],
@@ -94,7 +81,7 @@ async function setRichMenu(): Promise<any> {
   console.log('created new');
   await client.setRichMenuImage(
     richMenu,
-    fs.createReadStream('./src/api/richmenu/richmenu20200301.png')
+    fs.createReadStream('./src/api/richmenu/richmenu20200602.png')
   );
 
   console.log('set richmenu finish');
