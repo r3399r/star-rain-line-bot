@@ -67,7 +67,7 @@ Resources:
       Type: AWS::Serverless::Function
       Properties:
         Handler: index.starRain
-        Runtime: nodejs10.x
+        Runtime: nodejs14.x
         FunctionName: !Sub ${ENVR}-star-rain
         Role: arn:aws:iam::278497686406:role/line-bot
         CodeUri: ../../dist/webpack/lambda
